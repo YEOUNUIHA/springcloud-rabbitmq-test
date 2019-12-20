@@ -1,0 +1,31 @@
+spring:
+  influx:
+    url: http://localhost:8086
+    password: telegraf
+    retentionPolicy: autogen
+    user: admin
+
+  cloud:
+    stream:
+      default-binder: rabbit
+      bindings:
+        greetingChannel: #exchange
+          destination: greetingChannel #Queue name destination + . + group
+          group: greet
+#      kafka:
+#        binder:
+#          brokers:
+#            - localhost:9092
+      rabbit:
+        bindings:
+          greetingChannel: ##exchange
+            consumer:
+              concurrency: 5
+              bindingRoutingKey: test
+        binder:
+          admin-addresses:
+            - localhost:5672
+
+
+server:
+  port: 8080
